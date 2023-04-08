@@ -16,7 +16,7 @@ document.querySelector(".fa-bars")
         // backdrop.classList.add('show');
     });
 
-var baseUrl = "https://star4.ir";
+var baseUrl = "http://192.168.10.26:8080";
 var myVar;
 function setAdminStuffForAdmin(element, adminTypeId, driverId) {
     $(element).find("input:radio").prop("checked", true);
@@ -153,32 +153,32 @@ $("#returnComment").on("click", () => {
     });
 });
 
-function givFactor(element,factorSn) {
+function givFactor(element, factorSn) {
     swal({
         title: "هشدار!",
         text: "آیا مطمئین هستید؟",
         icon: "warning",
         buttons: true,
-    }).then(function(willDo){
-        if(willDo){
-            $.get(baseUrl+'/giveFactor',{factorSn:factorSn},function(data,status){
-                if(status=='success'){
-                    let  givenClass = "selected";
-                    if(data==1){
-                        $(element).prop("checked",true);
-                        let gevenState="";
-                       
+    }).then(function (willDo) {
+        if (willDo) {
+            $.get(baseUrl + '/giveFactor', { factorSn: factorSn }, function (data, status) {
+                if (status == 'success') {
+                    let givenClass = "selected";
+                    if (data == 1) {
+                        $(element).prop("checked", true);
+                        let gevenState = "";
+
                         $(element).parents("tr").addClass(givenClass);
-                        
-                    }else{
-                        $(element).prop("checked",false);
+
+                    } else {
+                        $(element).prop("checked", false);
                         $(element).parents("tr").removeClass(givenClass);
                     }
                 }
             })
         }
 
-})
+    })
 
 }
 
@@ -315,7 +315,7 @@ $("#openkarabarDashboard").on("click", () => {
                 $("#countReturnedFactor").text(info[0].countReturnFactor);
             }
             if (admin[0]) {
-               // $("#assignCustomerDate").text( moment(admin[0].minDate, "YYYY/M/D").locale("fa").format("YYYY/M/D"));
+                // $("#assignCustomerDate").text( moment(admin[0].minDate, "YYYY/M/D").locale("fa").format("YYYY/M/D"));
                 $("#countCustomer").text(admin[0].countPeopel);
                 $("#comment").text(admin[0].discription);
                 $("#adminNameModal").text(admin[0].name + " " + admin[0].lastName);
@@ -610,7 +610,7 @@ $("#bargerilist").on("keyup", () => {
             searchingFactor.forEach((element, index) => {
                 $("#crmDriverBargeri").append(
                     `
-               <tr onclick="setBargiryStuff(this,`+element.PSN+`)">
+               <tr onclick="setBargiryStuff(this,`+ element.PSN + `)">
                     <td>` +
                     (index + 1) +
                     `</td>
@@ -715,7 +715,7 @@ function setAdminStuff(element, adminId, adminTypeId) {
             },
             async: true,
             success: function (adminState) {
-                if (adminState==0) {
+                if (adminState == 0) {
                     $("#emptyKarbarButton").prop("disabled", false);
                     $("#moveKarbarButton").prop("disabled", false);
                     $("#deleteAdmin").prop("disabled", true);
@@ -724,29 +724,29 @@ function setAdminStuff(element, adminId, adminTypeId) {
                     $("#moveKarbarButton").prop("disabled", true);
                     $("#deleteAdmin").prop("disabled", false);
                 }
-            //     $("#addedCustomer").empty();
-            //     arrayed_result.forEach((element, index) => {
-            //         $("#addedCustomer").append(
-            //             `
-            //     <tr onclick="checkCheckBox(this,event)">
-            //         <td id="radif" style="width:55px;">` +
-            //             (index + 1) +
-            //             `</td>
-            //         <td id="mCode" style="width:115px;">` +
-            //             element.PCode +
-            //             `</td>
-            //         <td >` +
-            //             element.Name +
-            //             `</td>
-            //         <td style="width:50px;">
-            //             <input class="form-check-input" name="addedCustomerIDs[]" type="checkbox" value="` +
-            //             element.PSN +
-            //             `" id="kalaId">
-            //         </td>
-            //     </tr>
-            // `
-            //         );
-            //     });
+                //     $("#addedCustomer").empty();
+                //     arrayed_result.forEach((element, index) => {
+                //         $("#addedCustomer").append(
+                //             `
+                //     <tr onclick="checkCheckBox(this,event)">
+                //         <td id="radif" style="width:55px;">` +
+                //             (index + 1) +
+                //             `</td>
+                //         <td id="mCode" style="width:115px;">` +
+                //             element.PCode +
+                //             `</td>
+                //         <td >` +
+                //             element.Name +
+                //             `</td>
+                //         <td style="width:50px;">
+                //             <input class="form-check-input" name="addedCustomerIDs[]" type="checkbox" value="` +
+                //             element.PSN +
+                //             `" id="kalaId">
+                //         </td>
+                //     </tr>
+                // `
+                //         );
+                //     });
             },
             error: function (data) { },
         });
@@ -1846,7 +1846,7 @@ function getAlarmHistory(history) {
     });
 }
 
-function getDoneAlarmHistory(history){
+function getDoneAlarmHistory(history) {
     $.ajax({
         method: "get",
         url: baseUrl + "/getDoneAlarmsHistory",
@@ -1879,7 +1879,7 @@ function getDoneAlarmHistory(history){
         , error: function (error) {
 
         }
-    }); 
+    });
 }
 
 $("#filterAlarmsForm").on("submit", function (e) {
@@ -1941,26 +1941,26 @@ $("#filterAlarmsForm").on("submit", function (e) {
 $("#orderAlarms").on("change", function () {
     searchTerm = $("#searchAlarmName").val();
     snMantagheh = $("#searchAlarmByMantagheh").val();
-    if($("#customerWithAlarm").is(":checked")){
-    $.ajax({
-        method: "get",
-        url: baseUrl + "/orderAlarms",
-        data: {
-            _token: "{{ csrf_token() }}",
-            baseName: $("#orderAlarms").val(),
-            searchTerm: searchTerm,
-            snMantagheh: snMantagheh
-        },
-        async: true,
-        success: function (msg) {
-            $("#alarmsbody").empty();
-            msg.forEach((element, index) => {
-                $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
+    if ($("#customerWithAlarm").is(":checked")) {
+        $.ajax({
+            method: "get",
+            url: baseUrl + "/orderAlarms",
+            data: {
+                _token: "{{ csrf_token() }}",
+                baseName: $("#orderAlarms").val(),
+                searchTerm: searchTerm,
+                snMantagheh: snMantagheh
+            },
+            async: true,
+            success: function (msg) {
+                $("#alarmsbody").empty();
+                msg.forEach((element, index) => {
+                    $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
                 <td >`+ (index + 1) + `</td>
                 <td style="width:111px">` +
-            moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
-            .locale("fa")
-            .format("YYYY/M/D") + `</td>
+                        moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
+                            .locale("fa")
+                            .format("YYYY/M/D") + `</td>
                             <td>`+ element.Name + `</td>
                             <td>`+ element.PhoneStr + `</td>
                             <td style="width:99px">`+ element.countCycle + `</td>
@@ -1971,34 +1971,34 @@ $("#orderAlarms").on("change", function () {
                             <td style="width:166px">`+ element.poshtibanName + ` ` + element.poshtibanLastName + `</td>
                             <td><input class="customerList form-check-input" name="customerId" type="radio" value="`+ element.PSN + `_` + element.adminSn + `_` + element.SerialNoHDS + `"></td>
                         </tr>`);
-            })
-        }
-        , error: function (error) {
+                })
+            }
+            , error: function (error) {
 
-        }
-    });
-}
+            }
+        });
+    }
 
-if($("#customerDoneAlarms").is(":checked")){
-    $.ajax({
-        method: "get",
-        url: baseUrl + "/orderDoneAlarms",
-        data: {
-            _token: "{{ csrf_token() }}",
-            baseName: $("#orderAlarms").val(),
-            searchTerm: searchTerm,
-            snMantagheh: snMantagheh
-        },
-        async: true,
-        success: function (msg) {
-            $("#alarmsbody").empty();
-            msg.forEach((element, index) => {
-                $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
+    if ($("#customerDoneAlarms").is(":checked")) {
+        $.ajax({
+            method: "get",
+            url: baseUrl + "/orderDoneAlarms",
+            data: {
+                _token: "{{ csrf_token() }}",
+                baseName: $("#orderAlarms").val(),
+                searchTerm: searchTerm,
+                snMantagheh: snMantagheh
+            },
+            async: true,
+            success: function (msg) {
+                $("#alarmsbody").empty();
+                msg.forEach((element, index) => {
+                    $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
                 <td >`+ (index + 1) + `</td>
                 <td style="width:111px">` +
-            moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
-            .locale("fa")
-            .format("YYYY/M/D") + `</td>
+                        moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
+                            .locale("fa")
+                            .format("YYYY/M/D") + `</td>
                             <td>`+ element.Name + `</td>
                             <td>`+ element.PhoneStr + `</td>
                             <td style="width:99px">`+ element.countCycle + `</td>
@@ -2009,13 +2009,13 @@ if($("#customerDoneAlarms").is(":checked")){
                             <td style="width:166px">`+ element.poshtibanName + ` ` + element.poshtibanLastName + `</td>
                             <td><input class="customerList form-check-input" name="customerId" type="radio" value="`+ element.PSN + `_` + element.adminSn + `_` + element.SerialNoHDS + `"></td>
                         </tr>`);
-                        })
-        }
-        , error: function (error) {
+                })
+            }
+            , error: function (error) {
 
-        }
-    });
-}
+            }
+        });
+    }
 
 
 })
@@ -2154,7 +2154,7 @@ $("#findMantaghehByCity").on("change", () => {
         data: {
             _token: "{{ csrf_token() }}",
             cityId: $("#findMantaghehByCity").val(),
-            adminId:$("#employeeId").val()
+            adminId: $("#employeeId").val()
         },
         async: true,
         success: function (arrayed_result) {
@@ -2187,7 +2187,7 @@ $("#searchCustomerByMantagheh").on("change", () => {
         data: {
             _token: "{{ csrf_token() }}",
             searchTerm: searchTerm1,
-            adminId:$("#employeeId").val()
+            adminId: $("#employeeId").val()
         },
         async: true,
         success: function (msg) {
@@ -2430,7 +2430,7 @@ $("#openDashboardForAlarm").on("click", () => {
         success: function (msg) {
             moment.locale("en");
             let exactCustomer = msg[0];
-            
+
             let factors = msg[1];
             let goodDetails = msg[2];
             let basketOrders = msg[3];
@@ -2441,7 +2441,7 @@ $("#openDashboardForAlarm").on("click", () => {
             let returnedFactors = msg[7];
             let loginInfo = msg[8];
             if (specialComment) {
-            $("#customerProperty").val(specialComment.comment.trim());
+                $("#customerProperty").val(specialComment.comment.trim());
             }
             $("#dashboardTitle").text(exactCustomer.Name);
             $("#customerCode").text(exactCustomer.PCode);
@@ -2456,11 +2456,11 @@ $("#openDashboardForAlarm").on("click", () => {
             factors.forEach((element, index) => {
                 $("#factorTable").append(
                     `<tr class="tbodyTr">
-                        <td>` + (index + 1) +`</td>
+                        <td>` + (index + 1) + `</td>
                         <td>` + element.FactDate + `</td>
                         <td>نامعلوم</td>
-                        <td>` + parseInt(element.TotalPriceHDS / 10).toLocaleString("en-us") +`</td>
-                        <td onclick="showFactorDetails(this)"><input name="factorId" style="display:none"  type="radio" value="` + element.SerialNoHDS +`" /><i class="fa fa-eye" /></td>
+                        <td>` + parseInt(element.TotalPriceHDS / 10).toLocaleString("en-us") + `</td>
+                        <td onclick="showFactorDetails(this)"><input name="factorId" style="display:none"  type="radio" value="` + element.SerialNoHDS + `" /><i class="fa fa-eye" /></td>
                     </tr>
              ` );
             });
@@ -2651,7 +2651,7 @@ function alarmHistory() {
             <td>` +
                     element.comment +
                     `</td>
-           <td style="width:210px;">`+element.adminName+`</td>
+           <td style="width:210px;">`+ element.adminName + `</td>
             </tr>`
                 );
             });
@@ -2951,7 +2951,7 @@ $("#searchAlarmByMantagheh").on("change", function () {
         });
     }
 
-    if($("#customerDoneAlarms").is(":checked")){
+    if ($("#customerDoneAlarms").is(":checked")) {
         $.ajax({
             method: "get",
             url: baseUrl + "/searchDoneAlarm",
@@ -2987,7 +2987,7 @@ $("#searchAlarmByMantagheh").on("change", function () {
             }
         });
     }
-    
+
     if ($("#customerWithOutAlarm").is(":checked")) {
         $.ajax({
             method: "get",
@@ -3429,7 +3429,7 @@ $("#emptyKarbarButton").on("click", () => {
                 discription = admin.discription;
             }
             if (admin.adminType != 5) {
-                
+
                 $("#emptyKarbar").empty();
                 $("#emptyKarbar").append(
                     `<tr>
@@ -3471,7 +3471,7 @@ $("#emptyKarbarButton").on("click", () => {
                     handle: ".modal-header",
                 });
                 $("#removeKarbar").modal("show");
-            }else{
+            } else {
                 alert("Good")
             }
         },
@@ -3923,7 +3923,7 @@ $("#visitorSearchName").on("keyup", () => {
             $("#listVisitorBody").empty();
             msg.forEach((element, index) => {
                 $("#listVisitorBody").append(
-                    `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                    `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
             <td >` +
                     (index + 1) +
                     `</td>
@@ -4372,7 +4372,7 @@ function showAssesComment(id) {
 
 function returnedCustomerStuff(element) {
     let input = $(element).find("input:radio").prop("checked", true);
-    let adminID=input.val().split("_")[0];
+    let adminID = input.val().split("_")[0];
     $("#customerSn").val(adminID);
     $("#adminSn").val(input.val().split("_")[1]);
     $(".enableBtn").prop("disabled", false);
@@ -6908,13 +6908,13 @@ $("#searchAllName").on("keyup", () => {
                         $checkState = "checked"
                     }
                     $("#customerBodyList").append(`<tr onclick="returnedCustomerStuff(this)">
-                                                        <td>`+(index+1)+`</td>
-                                                        <td style="width:188px; font-size:12px">`+element.Name+`</td>
-                                                        <td style="width:188px; font-size:12px">`+element.PCode+`</td>
-                                                        <td style="width:188px;">`+element.adminName+`</td>
-                                                        <td style="width:144px;">`+element.PhoneStr+`</td>
-                                                        <td style="width:133px;">`+element.lastFactDate+`</td>
-                                                        <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+element.PSN+`"></td>
+                                                        <td>`+ (index + 1) + `</td>
+                                                        <td style="width:188px; font-size:12px">`+ element.Name + `</td>
+                                                        <td style="width:188px; font-size:12px">`+ element.PCode + `</td>
+                                                        <td style="width:188px;">`+ element.adminName + `</td>
+                                                        <td style="width:144px;">`+ element.PhoneStr + `</td>
+                                                        <td style="width:133px;">`+ element.lastFactDate + `</td>
+                                                        <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+ element.PSN + `"></td>
                                                     </tr>`);
                 });
             },
@@ -7103,13 +7103,13 @@ $("#searchByMantagheh").on("change", () => {
                         $checkState = "checked"
                     }
                     $("#customerBodyList").append(`<tr onclick="returnedCustomerStuff(this)">
-                                                        <td>`+(index+1)+`</td>
-                                                        <td style="width:188px; font-size:12px">`+element.Name+`</td>
-                                                        <td style="width:188px; font-size:12px">`+element.PCode+`</td>
-                                                        <td style="width:188px;">`+element.adminName+`</td>
-                                                        <td style="width:144px;">`+element.PhoneStr+`</td>
-                                                        <td style="width:133px;">`+element.lastFactDate+`</td>
-                                                        <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+element.PSN+`"></td>
+                                                        <td>`+ (index + 1) + `</td>
+                                                        <td style="width:188px; font-size:12px">`+ element.Name + `</td>
+                                                        <td style="width:188px; font-size:12px">`+ element.PCode + `</td>
+                                                        <td style="width:188px;">`+ element.adminName + `</td>
+                                                        <td style="width:144px;">`+ element.PhoneStr + `</td>
+                                                        <td style="width:133px;">`+ element.lastFactDate + `</td>
+                                                        <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+ element.PSN + `"></td>
                                                     </tr>`);
                 });
             },
@@ -7135,7 +7135,7 @@ $("#searchByMantagheh").on("change", () => {
                                 <tr onclick="setInActiveCustomerStuff(this,`+ element.PSN + `)">
                                     <td>`+ (index + 1) + `</td>
                                     <td>`+ element.CustomerName + `</td>
-                                    <td>`+ element.PCode+ `</td>
+                                    <td>`+ element.PCode + `</td>
                                     <td  style="width:99px">`+ element.PhoneStr + `</td>
                                     <td style="width:133px">`+ moment(element.TimeStamp, "YYYY-M-D HH:mm:ss")
                             .locale("fa")
@@ -8648,46 +8648,46 @@ $("#filterInActivesBtn").on("click", function () {
     });
 });
 
-function getgoodSaleRound(productId){
-    $.get(baseUrl+'/getGoodSalesRound',{productId:productId},(data,status)=>{
-        if(status=="success"){
+function getgoodSaleRound(productId) {
+    $.get(baseUrl + '/getGoodSalesRound', { productId: productId }, (data, status) => {
+        if (status == "success") {
             $("#salesRoundBody").empty();
             $("#kalaNameRound").text("");
             $("#kalaNameRound").text(data[0].GoodName);
-            data.forEach((element,index)=>{
+            data.forEach((element, index) => {
                 $("#salesRoundBody").append(`<tr>
-                <td>`+(index+1)+`</td>
-                <td>`+element.Name+`</td>
-                <td>`+element.saleDate+`</td>
-                <td>`+parseInt(element.Fi/10).toLocaleString("en")+` تومان</td>
-                <td>`+parseInt(element.Amount)+` </td>
-                <td>`+parseInt(element.Price/10).toLocaleString("en")+` تومان</td>
-                 <td>`+element.GoodCde+`</td>
+                <td>`+ (index + 1) + `</td>
+                <td>`+ element.Name + `</td>
+                <td>`+ element.saleDate + `</td>
+                <td>`+ parseInt(element.Fi / 10).toLocaleString("en") + ` تومان</td>
+                <td>`+ parseInt(element.Amount) + ` </td>
+                <td>`+ parseInt(element.Price / 10).toLocaleString("en") + ` تومان</td>
+                 <td>`+ element.GoodCde + `</td>
                 </tr> `);
             });
-        $("#goodSalesRound").modal("show");
+            $("#goodSalesRound").modal("show");
         }
     });
 }
 
 
-$("#allKalaRadio").on("change",()=>{
-    $(".allKalaTools").css("display","inline");
-    $(".rakidKalaTools").css("display","none");
-    $(".returnedKalaTools").css("display","none");
+$("#allKalaRadio").on("change", () => {
+    $(".allKalaTools").css("display", "inline");
+    $(".rakidKalaTools").css("display", "none");
+    $(".returnedKalaTools").css("display", "none");
 });
 
-$("#rakidKalaReportRadio").on("change",()=>{
-    $(".allKalaTools").css("display","none");
-    $(".returnedKalaTools").css("display","none");
-    $(".rakidKalaTools").css("display","inline");
-    
+$("#rakidKalaReportRadio").on("change", () => {
+    $(".allKalaTools").css("display", "none");
+    $(".returnedKalaTools").css("display", "none");
+    $(".rakidKalaTools").css("display", "inline");
+
 });
 
-$("#returnKalaReportRadio").on("change",()=>{
-    $(".returnedKalaTools").css("display","inline");
-    $(".allKalaTools").css("display","none");
-    $(".rakidKalaTools").css("display","none");
+$("#returnKalaReportRadio").on("change", () => {
+    $(".returnedKalaTools").css("display", "inline");
+    $(".allKalaTools").css("display", "none");
+    $(".rakidKalaTools").css("display", "none");
 });
 
 $("#filterNoAdminsBtn").on("click", function () {
@@ -8729,7 +8729,7 @@ $("#filterNewCustomerBtn").on("click", function () {
         data: {
             _token: "{{ csrf_token() }}",
             boughtState: boughtState,
-            admin:$("#installer").val()
+            admin: $("#installer").val()
         },
         async: true,
         success: function (msg) {
@@ -8737,13 +8737,13 @@ $("#filterNewCustomerBtn").on("click", function () {
             $("#customerBodyList").empty();
             msg.forEach((element, index) => {
                 $("#customerBodyList").append(`<tr onclick="returnedCustomerStuff(this)">
-                <td>`+(index+1)+`</td>
-                <td style="width:188px; font-size:12px">`+element.Name+`</td>
-                <td style="width:188px; font-size:12px">`+element.PCode+`</td>
-                <td style="width:188px;">`+element.adminName+`</td>
-                <td style="width:144px;">`+element.PhoneStr+`</td>
-                <td style="width:133px;">`+element.lastFactDate+`</td>
-                <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+element.PSN+`"></td>
+                <td>`+ (index + 1) + `</td>
+                <td style="width:188px; font-size:12px">`+ element.Name + `</td>
+                <td style="width:188px; font-size:12px">`+ element.PCode + `</td>
+                <td style="width:188px;">`+ element.adminName + `</td>
+                <td style="width:144px;">`+ element.PhoneStr + `</td>
+                <td style="width:133px;">`+ element.lastFactDate + `</td>
+                <td> <input class="customerList form-check-input" name="customerId[]" type="radio" value="`+ element.PSN + `"></td>
             </tr>`);
             });
         }
@@ -9075,7 +9075,7 @@ $("#LoginFrom").on("keyup", function () {
             $("#listVisitorBody").empty();
             msg.forEach((element, index) => {
                 $("#listVisitorBody").append(
-                    `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                    `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
             <td >` +
                     (index + 1) +
                     `</td>
@@ -9130,7 +9130,7 @@ $("#filterAllLoginsBtn").on("click", function () {
             $("#listVisitorBody").empty();
             msg.forEach((element, index) => {
                 $("#listVisitorBody").append(
-                    `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                    `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
             <td>` +
                     (index + 1) +
                     `</td>
@@ -9181,7 +9181,7 @@ $("#countSameTime").on("keyup", function () {
                 $("#listVisitorBody").empty();
                 msg.forEach((element, index) => {
                     $("#listVisitorBody").append(
-                        `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                        `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
             <td >` +
                         (index + 1) +
                         `</td>
@@ -9231,7 +9231,7 @@ $("#LoginTo").on("keyup", function () {
             $("#listVisitorBody").empty();
             msg.forEach((element, index) => {
                 $("#listVisitorBody").append(
-                    `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                    `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
             <td >` +
                     (index + 1) +
                     `</td>
@@ -9289,7 +9289,7 @@ $("#LoginDate1").persianDatepicker({
                     $("#listVisitorBody").empty();
                     msg.forEach((element, index) => {
                         $("#listVisitorBody").append(
-                            `<tr  onclick="setAmalkardStuff(this,`+ element.PSN + `)">
+                            `<tr  onclick="setAmalkardStuff(this,` + element.PSN + `)">
                 <td >` +
                             (index + 1) +
                             `</td>
@@ -9503,7 +9503,7 @@ $("#searchCustomerName").on("keyup", function () {
         data: {
             _token: "{{ csrf_token() }}",
             searchTerm: searchTerm1,
-            adminId:$("#employeeId").val()
+            adminId: $("#employeeId").val()
         },
         async: true,
         success: function (msg) {
@@ -9665,7 +9665,7 @@ $("#searchCustomerCode").on("keyup", function () {
             data: {
                 _token: "{{ csrf_token() }}",
                 searchTerm: searchTerm1,
-                adminId:$("#employeeId").val()
+                adminId: $("#employeeId").val()
             },
             async: true,
             success: function (msg) {
@@ -9720,7 +9720,7 @@ $("#orderByCodeOrName").on("change", () => {
         data: {
             _token: "{{ csrf_token() }}",
             searchTerm: searchTerm1,
-            adminId:$("#employeeId").val()
+            adminId: $("#employeeId").val()
         },
         async: true,
         success: function (msg) {
@@ -9778,44 +9778,7 @@ $("#searchAlarmName").on("keyup", function () {
             data: {
                 _token: "{{ csrf_token() }}",
                 searchTerm: searchTerm,
-                snMantagheh:snMantagheh
-            },
-            async: true,
-            success: function (msg) {
-                $("#alarmsbody").empty();
-                msg.forEach((element, index) => {
-                    $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
-                                            <td >`+ (index + 1) + `</td>
-                                            <td  style="width:111px">` +
-                        moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
-                            .locale("fa")
-                            .format("YYYY/M/D") + ` </td>
-                                                        <td>`+ element.Name + `</td>
-                                                        <td>`+ element.PhoneStr + `</td>
-                                                        <td style="width:99px">`+ element.countCycle + `</td>
-                                                        <td style="width:77px">`+ element.NameRec + `</td>
-                                                        <td style="width:66px">`+ element.assignedDays + `</td>
-                                                        <td >`+ element.FactDate + `</td>
-                                                        <td style="width:111px; color:red">`+ element.alarmDate + `</td>
-                                                        <td style="width:166px">`+ element.poshtibanName + ` ` + element.poshtibanLastName + `</td>
-                                                        <td><input class="customerList form-check-input" name="customerId" type="radio" value="`+ element.PSN + `_` + element.adminSn + `_` + element.SerialNoHDS + `"></td>
-                                                    </tr>`);
-                })
-            }
-            , error: function (error) {
-
-            }
-        });
-    } 
-
-    if($("#customerDoneAlarms").is(":checked")){
-        $.ajax({
-            method: "get",
-            url: baseUrl + "/searchDoneAlarm",
-            data: {
-                _token: "{{ csrf_token() }}",
-                searchTerm: searchTerm,
-                snMantagheh:snMantagheh
+                snMantagheh: snMantagheh
             },
             async: true,
             success: function (msg) {
@@ -9844,20 +9807,57 @@ $("#searchAlarmName").on("keyup", function () {
             }
         });
     }
-    if($("#customerWithOutAlarm").is(":checked")){
+
+    if ($("#customerDoneAlarms").is(":checked")) {
+        $.ajax({
+            method: "get",
+            url: baseUrl + "/searchDoneAlarm",
+            data: {
+                _token: "{{ csrf_token() }}",
+                searchTerm: searchTerm,
+                snMantagheh: snMantagheh
+            },
+            async: true,
+            success: function (msg) {
+                $("#alarmsbody").empty();
+                msg.forEach((element, index) => {
+                    $("#alarmsbody").append(`<tr onClick="setAlarmCustomerStuff(this,` + element.id + `)">
+                                            <td >`+ (index + 1) + `</td>
+                                            <td  style="width:111px">` +
+                        moment(element.TimeStamp, "YYYY/M/D HH:mm:ss")
+                            .locale("fa")
+                            .format("YYYY/M/D") + ` </td>
+                                                        <td>`+ element.Name + `</td>
+                                                        <td>`+ element.PhoneStr + `</td>
+                                                        <td style="width:99px">`+ element.countCycle + `</td>
+                                                        <td style="width:77px">`+ element.NameRec + `</td>
+                                                        <td style="width:66px">`+ element.assignedDays + `</td>
+                                                        <td >`+ element.FactDate + `</td>
+                                                        <td style="width:111px; color:red">`+ element.alarmDate + `</td>
+                                                        <td style="width:166px">`+ element.poshtibanName + ` ` + element.poshtibanLastName + `</td>
+                                                        <td><input class="customerList form-check-input" name="customerId" type="radio" value="`+ element.PSN + `_` + element.adminSn + `_` + element.SerialNoHDS + `"></td>
+                                                    </tr>`);
+                })
+            }
+            , error: function (error) {
+
+            }
+        });
+    }
+    if ($("#customerWithOutAlarm").is(":checked")) {
         $.ajax({
             method: "get",
             url: baseUrl + "/searchUnAlarmedCustomer",
             data: {
                 _token: "{{ csrf_token() }}",
                 searchTerm: searchTerm,
-                snMantagheh:snMantagheh
+                snMantagheh: snMantagheh
             },
             async: true,
             success: function (msg) {
-                    $("#unalarmsbody").empty();
-                    msg.forEach((element, index) => {
-                        $("#unalarmsbody").append(`<tr  onclick="setUnAlarmStuff(this,` + element.PSN + `,` + element.adminId + `)">
+                $("#unalarmsbody").empty();
+                msg.forEach((element, index) => {
+                    $("#unalarmsbody").append(`<tr  onclick="setUnAlarmStuff(this,` + element.PSN + `,` + element.adminId + `)">
                             <td >`+ (index + 1) + `</td>
                             <td>`+ element.Name + `</td>
                             <td>`+ element.PCode + `</td>
@@ -9867,11 +9867,11 @@ $("#searchAlarmName").on("keyup", function () {
                             <td style="width:166px">`+ element.adminName + `</td>
                             <td><input class="customerList form-check-input" name="customerId" type="radio" value="`+ element.PSN + `_` + element.adminId + `_` + element.SerialNoHDS + `"></td>
                         </tr>`);
-                    })
-                }
-            })
-        }
-    });
+                })
+            }
+        })
+    }
+});
 
 function setAlarmCustomerStuff(element) {
 
@@ -10333,14 +10333,14 @@ $("#searchingCustomerName").on("keyup", () => {
     });
 });
 
-function setBargiryStuff(element,customerId) {
+function setBargiryStuff(element, customerId) {
     $("#customerIdForLoc").val(customerId);
     $(element).find("input:radio").prop("checked", true);
     let input = $(element).find("input:radio");
     let factorId = input.val().split("_")[1];
     $("#factorId").val(factorId);
     $("#bargiriyBYSId").val(input.val().split("_")[0]);
-    $("#totalMoney").text(parseInt(input.val().split("_")[2] / 10).toLocaleString("en-us")); 
+    $("#totalMoney").text(parseInt(input.val().split("_")[2] / 10).toLocaleString("en-us"));
     $("#diffPrice1").text(input.val().split("_")[2] / 10);
     $.ajax({
         method: "get",
@@ -10605,7 +10605,7 @@ function showBargiriFactors(element, adminId) {
             arrayed_result.forEach((element, index) => {
                 $("#crmDriverBargeri").append(
                     `
-                <tr onclick="setBargiryStuff(this,`+element.PSN+`)" @if($factor->isGeven==1) class="selected" @endif">
+                <tr onclick="setBargiryStuff(this,`+ element.PSN + `)" @if($factor->isGeven==1) class="selected" @endif">
                     <td>` + (index + 1) + `</td>
                     <td>` + element.Name + `</td>
                     <td class="address">` + element.peopeladdress + `</td>
@@ -12017,14 +12017,14 @@ $("#searchBargiriSelfForm").on("submit", function (e) {
             moment.locale("en");
             $("#crmDriverBargeri").empty();
             msg.forEach((element, index) => {
-                let gevenState="";
-                let givenClass="";
-                if(element.isGeven==1){
-                    gevenState="checked";
+                let gevenState = "";
+                let givenClass = "";
+                if (element.isGeven == 1) {
+                    gevenState = "checked";
                     givenClass = "selected";
                 }
                 $("#crmDriverBargeri").append(
-                    `<tr onclick="setBargiryStuff(this,`+element.PSN+`)" `+givenClass+`>
+                    `<tr onclick="setBargiryStuff(this,` + element.PSN + `)" ` + givenClass + `>
                             <td>` + (index + 1) + `</td>
                             <td>` + element.Name + `</td>
                             <td class="address">` + element.peopeladdress + `</td>
@@ -12035,7 +12035,7 @@ $("#searchBargiriSelfForm").on("submit", function (e) {
                             <td style="width:50px"> 
                             <div class="checkbox-wrapper-44">
                                 <label class="toggleButton">
-                                    <input type="checkbox" `+gevenState+` onchange="givFactor(this,`+element.SerialNoHDS+`)">
+                                    <input type="checkbox" `+ gevenState + ` onchange="givFactor(this,` + element.SerialNoHDS + `)">
                                     <div>
                                     <svg viewBox="0 0 44 44">
                                         <path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
@@ -12063,17 +12063,17 @@ $("#salesReportForm").on("submit", function (e) {
         data: $(this).serialize(),
         success: function (data) {
             $("#salesReportList").empty();
-           let rows= data.map((element,index)=>`<tr><td>`+(index+1)+`</td><td>`+element.Name+`</td><td>`+element.PCode+`</td><td>`+parseInt((element.sumAllMoney||0)).toLocaleString("en-us")+`</td><td style="width: 116px">`+parseInt(element.CountFactor||0).toLocaleString("en-us")+`</td></tr>`)
-           let sumAllMoney=data.reduce((accumulator, curValue)=> {
-            return accumulator + parseInt((curValue.sumAllMoney || 0));
-          }, 0);
-           let countAllFactor=data.reduce( (accumulator, curValue)=> {
-            return accumulator + parseInt((curValue.CountFactor || 0));
-          }, 0);
+            let rows = data.map((element, index) => `<tr><td>` + (index + 1) + `</td><td>` + element.Name + `</td><td>` + element.PCode + `</td><td>` + parseInt((element.sumAllMoney || 0)).toLocaleString("en-us") + `</td><td style="width: 116px">` + parseInt(element.CountFactor || 0).toLocaleString("en-us") + `</td></tr>`)
+            let sumAllMoney = data.reduce((accumulator, curValue) => {
+                return accumulator + parseInt((curValue.sumAllMoney || 0));
+            }, 0);
+            let countAllFactor = data.reduce((accumulator, curValue) => {
+                return accumulator + parseInt((curValue.CountFactor || 0));
+            }, 0);
 
-          console.log(sumAllMoney)
+            console.log(sumAllMoney)
 
-           $("#salesReportList").append(rows)
+            $("#salesReportList").append(rows)
             $("#customersMoney").text(sumAllMoney.toLocaleString("en-us"));
             $("#customersCountFactor").text(countAllFactor.toLocaleString("en-us"));
         },
@@ -13669,9 +13669,9 @@ function setUpDownHistoryStuff(element, historyID) {
         },
         async: true,
         success: function (respond) {
-            $("#deleteCreditBtn").prop("disabled",false);
+            $("#deleteCreditBtn").prop("disabled", false);
             $("#deleteCreditBtn").val(respond[0][0].id);
-            $("#editCreditBtn").prop("disabled",false);
+            $("#editCreditBtn").prop("disabled", false);
             $("#editCreditBtn").val(respond[0][0].id);
         },
         error: function (error) {
@@ -13852,8 +13852,8 @@ $("#getHistorySearchBtn").on("click", function (e) {
             bonusType: bonusType,
             firstDate: firstDate,
             secondDate: secondDate,
-            name:$("#searchUpDownHistoryName").val(),
-            orderBase:$("#orderBonusHistory").val()
+            name: $("#searchUpDownHistoryName").val(),
+            orderBase: $("#orderBonusHistory").val()
         },
         success: function (data) {
             $("#historyListBody").empty();
@@ -14210,7 +14210,7 @@ $("#customerLocationRadio").on("change", () => {
 
 $(".alarmRighRdios").on("change", () => {
 
-    $("#customerWithOutAlarm").on("change",()=>{
+    $("#customerWithOutAlarm").on("change", () => {
         $("#customerWithOutAlarmBuyOrNot").show();
         $("#unAlarmedCustomers").show();
         $("#alarmedCustomers").hide();
@@ -14222,7 +14222,7 @@ $(".alarmRighRdios").on("change", () => {
         $("#orderUnAlarms").show();
         $("#alarmDoneButtonsHistoryDiv").hide();
     })
-    $("#customerWithAlarm").on("change",()=>{
+    $("#customerWithAlarm").on("change", () => {
         $("#customerWithOutAlarmBuyOrNot").hide();
         $("#unAlarmedCustomers").hide();
         $("#alarmedCustomers").show();
@@ -14234,7 +14234,7 @@ $(".alarmRighRdios").on("change", () => {
         $("#orderUnAlarms").hide();
         $("#alarmDoneButtonsHistoryDiv").hide();
     })
-    $("#customerDoneAlarms").on("change",()=>{
+    $("#customerDoneAlarms").on("change", () => {
         $("#customerWithOutAlarmBuyOrNot").hide();
         $("#unAlarmedCustomers").hide();
         $("#alarmedCustomers").show();
@@ -15975,10 +15975,10 @@ function setManagerStuff(element, adminId) {
         async: true,
         success: function (response) {
             if (response.length > 0) {
-                $("#deleteAdmin").prop("disabled",true);
-            }else{
+                $("#deleteAdmin").prop("disabled", true);
+            } else {
                 $("#deleteAdmin").val(adminId);
-                $("#deleteAdmin").prop("disabled",false);
+                $("#deleteAdmin").prop("disabled", false);
             }
 
         },
@@ -16026,10 +16026,10 @@ function setHeadStuff(element, headId) {
             });
 
             if (response.length > 0) {
-                $("#deleteAdmin").prop("disabled",true);
-            }else{
+                $("#deleteAdmin").prop("disabled", true);
+            } else {
                 $("#deleteAdmin").val(headId);
-                $("#deleteAdmin").prop("disabled",false);
+                $("#deleteAdmin").prop("disabled", false);
             }
 
         },
@@ -16281,10 +16281,10 @@ function checkCheckBox(element, event) {
         async: true,
         success: function (arrayed_result) {
             if (arrayed_result.length > 0) {
-                $("#deleteAdmin").prop("disabled",true);
-            }else{
+                $("#deleteAdmin").prop("disabled", true);
+            } else {
                 $("#deleteAdmin").val($(input).val());
-                $("#deleteAdmin").prop("disabled",false);
+                $("#deleteAdmin").prop("disabled", false);
             }
         }
     });
@@ -16599,7 +16599,7 @@ $("#searchManagerSelect").on("change", () => {
                     success: function (respond) {
                         if (respond.adminType == 2 || respond.adminType == 4) {
                             if (respond.adminType == 4) {
-                                url = baseUrl + "/poshtibanActionInfo?subPoshtibanId=" +nextUrl;
+                                url = baseUrl + "/poshtibanActionInfo?subPoshtibanId=" + nextUrl;
                                 window.open(url);
                             } else {
                                 url = baseUrl + "/poshtibanActionInfo?subPoshtibanId=" + nextUrl;
@@ -16627,7 +16627,7 @@ $("#searchManagerSelect").on("change", () => {
 
 
 $(document).on("change", ".headsRadio", function () {
-    
+
     $.ajax({
         method: "get",
         url: baseUrl + '/getAdminInfo',
@@ -17712,8 +17712,8 @@ $("#openCurrentLocationModal").on("click", () => {
 
 });
 
-$("#changeAddressOnMap").on("click", ()=>{
-    
+$("#changeAddressOnMap").on("click", () => {
+
     var map_init = L.map('changeAdd').setView([35.70163, 51.39211], 12);
 
 
@@ -17764,12 +17764,12 @@ $("#changeAddressOnMap").on("click", ()=>{
     $("#changeAddressModal").modal("show");
 });
 
-$("#registerLocByDriverBtn").on("click",function(){
-$.get(baseUrl+'/updatePosition',{pers:$("#currentLocationInput").val(),psn:$("#customerIdForLoc").val()},function(data,status){
-    if(status=='success'){
-        $("#changeAddressModal").modal("hide");
-    }
-})
+$("#registerLocByDriverBtn").on("click", function () {
+    $.get(baseUrl + '/updatePosition', { pers: $("#currentLocationInput").val(), psn: $("#customerIdForLoc").val() }, function (data, status) {
+        if (status == 'success') {
+            $("#changeAddressModal").modal("hide");
+        }
+    })
 });
 
 function saveLocation() {
@@ -25538,266 +25538,264 @@ $(".reportED").on("change", function () {
     }
 });
 
-$("#openViewTenSalesModal").on("click",()=>{
-    const kalaId=$("#kalaSettingsBtn").val();
-        $.ajax({
+$("#openViewTenSalesModal").on("click", () => {
+    const kalaId = $("#kalaSettingsBtn").val();
+    $.ajax({
         method: 'get',
-        url:baseUrl+"/getTenLastSales",
+        url: baseUrl + "/getTenLastSales",
         async: true,
         data: {
             _token: "{{ csrf_token() }}",
             kalaId: kalaId
         },
-        success: function(arrayed_result) {
+        success: function (arrayed_result) {
             $('#lastTenSaleBody').empty();
-            arrayed_result.forEach((element,index)=>{
+            arrayed_result.forEach((element, index) => {
                 $('#lastTenSaleBody').append(`<tr>
-                                    <td>`+(index+1)+`</td>
+                                    <td>`+ (index + 1) + `</td>
                                    
-                                    <td>`+element.Name+`</td>
-                                    <td>`+element.FactDate+`</td>
-                                    <td>`+parseInt(element.Fi/10).toLocaleString("en")+` تومان</td>
-                                    <td>`+parseInt(element.Amount)+` </td>
-                                    <td>`+parseInt(element.Price/10).toLocaleString("en")+` تومان</td>
- 									<td>`+element.PCode+`</td>
+                                    <td>`+ element.Name + `</td>
+                                    <td>`+ element.FactDate + `</td>
+                                    <td>`+ parseInt(element.Fi / 10).toLocaleString("en") + ` تومان</td>
+                                    <td>`+ parseInt(element.Amount) + ` </td>
+                                    <td>`+ parseInt(element.Price / 10).toLocaleString("en") + ` تومان</td>
+ 									<td>`+ element.PCode + `</td>
                                     </tr>`);
             });
-			
-			 if (!($('.modal.in').length)) {
+
+            if (!($('.modal.in').length)) {
                 $('.modal-dialog').css({
                     left: 50,
                     top: 0
                 });
-              }
-              $('#viewTenSales').modal({
+            }
+            $('#viewTenSales').modal({
                 backdrop: false,
                 show: true
-              });
-              $('.modal-dialog').draggable({
-                  handle: ".modal-header"
-                });
+            });
+            $('.modal-dialog').draggable({
+                handle: ".modal-header"
+            });
             $("#viewTenSales").modal("show");
         },
-        error: function(data) {}
-        });
+        error: function (data) { }
+    });
 });
 
-function filterAllKala(){
-    $.get(baseUrl+"/filterAllKala",{
-            kalaNameCode:$("#searchKalaNameCode").val(),
-            mainGroup:$("#superGroup").val().split("_")[1],
-            subGroup:$("#subGroup").val(),
-            searchKalaStock:$("#searchKalaStock").val(),
-            searchKalaActiveOrNot:$("#searchKalaActiveOrNot").val(),
-            searchKalaExistInStock:$("#searchKalaExistInStock").val(),
-            assesFirstDate:$("#assesFirstDate").val(),
-            assesSecondDate:$("#assesSecondDate").val()
-    },function(data,status) {
-        if(status=="success"){
+function filterAllKala() {
+    $.get(baseUrl + "/filterAllKala", {
+        kalaNameCode: $("#searchKalaNameCode").val(),
+        mainGroup: $("#superGroup").val().split("_")[1],
+        subGroup: $("#subGroup").val(),
+        searchKalaStock: $("#searchKalaStock").val(),
+        searchKalaActiveOrNot: $("#searchKalaActiveOrNot").val(),
+        searchKalaExistInStock: $("#searchKalaExistInStock").val(),
+        assesFirstDate: $("#assesFirstDate").val(),
+        assesSecondDate: $("#assesSecondDate").val()
+    }, function (data, status) {
+        if (status == "success") {
             $("#lastDateSaleOrOther").text("");
             $("#lastDateSaleOrOther").text("آخرین تاریخ خرید");
-        $("#allKalaContainer").empty();
-        data.forEach((element,index)=>{
-            hidStyle="";
-            if(element.hideKala==1){
-                hidStyle="Style='background-color:red'";
-            }
-            $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
-            <td >`+(index+1)+`</td>
-            <td style="width:88px">`+element.GoodCde+`</td>
-            <td style="width:333px">`+element.GoodName+`</td>
-            <td>`+element.lastDate+`</td>
-            <td `+hidStyle+`>`+element.hideKala+`</td>
-            <td style="color:red;background-color:azure;">`+element.Amount+`</td>
+            $("#allKalaContainer").empty();
+            data.forEach((element, index) => {
+                hidStyle = "";
+                if (element.hideKala == 1) {
+                    hidStyle = "Style='background-color:red'";
+                }
+                $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
+            <td >`+ (index + 1) + `</td>
+            <td style="width:88px">`+ element.GoodCde + `</td>
+            <td style="width:333px">`+ element.GoodName + `</td>
+            <td>`+ element.lastDate + `</td>
+            <td `+ hidStyle + `>` + element.hideKala + `</td>
+            <td style="color:red;background-color:azure;">`+ element.Amount + `</td>
             <td >
-                <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+element.GoodSn+`" id="flexCheckCheckedKala">
+                <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+ element.GoodSn + `" id="flexCheckCheckedKala">
             </td>
         </tr>`);
-        })
-    }else{
-        alert("data has not come");
-    }
+            })
+        } else {
+            alert("data has not come");
+        }
     });
 }
 
-function filterRakidKala(){
-    $.get(baseUrl+"/getRakidKala",{
-            kalaNameCode:$("#searchKalaNameCode").val(),
-            mainGroup:$("#superGroup").val().split("_")[1],
-            subGroup:$("#subGroup").val(),
-            searchKalaStock:$("#searchKalaStock").val(),
-            searchKalaActiveOrNot:$("#searchKalaActiveOrNot").val(),
-            searchKalaExistInStock:$("#searchKalaExistInStock").val(),
-            rakidFirstDate:$("#firstDateRakid").val(),
-            rakidSecondDate:$("#secondDateRakid").val()
-    },function(data,status) {
-        if(status=="success"){
+function filterRakidKala() {
+    $.get(baseUrl + "/getRakidKala", {
+        kalaNameCode: $("#searchKalaNameCode").val(),
+        mainGroup: $("#superGroup").val().split("_")[1],
+        subGroup: $("#subGroup").val(),
+        searchKalaStock: $("#searchKalaStock").val(),
+        searchKalaActiveOrNot: $("#searchKalaActiveOrNot").val(),
+        searchKalaExistInStock: $("#searchKalaExistInStock").val(),
+        rakidFirstDate: $("#firstDateRakid").val(),
+        rakidSecondDate: $("#secondDateRakid").val()
+    }, function (data, status) {
+        if (status == "success") {
             $("#lastDateSaleOrOther").text("");
             $("#lastDateSaleOrOther").text("آخرین تاریخ خرید");
-        $("#allKalaContainer").empty();
-        data.forEach((element,index)=>{
-            hidStyle="";
-            if(element.hideKala==1){
-                hidStyle="Style='background-color:red'";
-            }
-            $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
-            <td >`+(index+1)+`</td>
-            <td style="width:88px">`+element.GoodCde+`</td>
-            <td style="width:333px">`+element.GoodName+`</td>
-            <td>`+element.lastDate+`</td>
-            <td `+hidStyle+`>`+element.hideKala+`</td>
-            <td style="color:red;background-color:azure;">`+element.Amount+`</td>
+            $("#allKalaContainer").empty();
+            data.forEach((element, index) => {
+                hidStyle = "";
+                if (element.hideKala == 1) {
+                    hidStyle = "Style='background-color:red'";
+                }
+                $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
+            <td >`+ (index + 1) + `</td>
+            <td style="width:88px">`+ element.GoodCde + `</td>
+            <td style="width:333px">`+ element.GoodName + `</td>
+            <td>`+ element.lastDate + `</td>
+            <td `+ hidStyle + `>` + element.hideKala + `</td>
+            <td style="color:red;background-color:azure;">`+ element.Amount + `</td>
             <td >
-                <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+element.GoodSn+`" id="flexCheckCheckedKala">
+                <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+ element.GoodSn + `" id="flexCheckCheckedKala">
             </td>
         </tr>`);
-        })
-    }else{
-        alert("data has not come");
-    }
+            })
+        } else {
+            alert("data has not come");
+        }
     });
 }
 
 
-function filterReturnedKala(){
-    $.get(baseUrl+"/getReturnedKala",{
-            kalaNameCode:$("#searchKalaNameCode").val(),
-            mainGroup:$("#superGroup").val().split("_")[1],
-            subGroup:$("#subGroup").val(),
-            searchKalaStock:$("#searchKalaStock").val(),
-            searchKalaActiveOrNot:$("#searchKalaActiveOrNot").val(),
-            searchKalaExistInStock:$("#searchKalaExistInStock").val(),
-            returnFirstDate:$("#firstDateReturn").val(),
-            returnSecondDate:$("#secondDateReturn").val()
-    },function(data,status) {
-        if(status=="success"){
+function filterReturnedKala() {
+    $.get(baseUrl + "/getReturnedKala", {
+        kalaNameCode: $("#searchKalaNameCode").val(),
+        mainGroup: $("#superGroup").val().split("_")[1],
+        subGroup: $("#subGroup").val(),
+        searchKalaStock: $("#searchKalaStock").val(),
+        searchKalaActiveOrNot: $("#searchKalaActiveOrNot").val(),
+        searchKalaExistInStock: $("#searchKalaExistInStock").val(),
+        returnFirstDate: $("#firstDateReturn").val(),
+        returnSecondDate: $("#secondDateReturn").val()
+    }, function (data, status) {
+        if (status == "success") {
             $("#lastDateSaleOrOther").text("");
             $("#lastDateSaleOrOther").text("آخرین تاریخ برگشت");
-        $("#allKalaContainer").empty();
-        data.forEach((element,index)=>{
-            hidStyle="";
-            if(element.hideKala==1){
-                hidStyle="Style='background-color:red'";
-            }
-            $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
-                                                <td >`+(index+1)+`</td>
-                                                <td style="width:88px">`+element.GoodCde+`</td>
-                                                <td style="width:333px">`+element.GoodName+`</td>
-                                                <td>`+element.lastDate+`</td>
-                                                <td `+hidStyle+`>`+element.hideKala+`</td>
-                                                <td style="color:red;background-color:azure;">`+element.Amount+`</td>
+            $("#allKalaContainer").empty();
+            data.forEach((element, index) => {
+                hidStyle = "";
+                if (element.hideKala == 1) {
+                    hidStyle = "Style='background-color:red'";
+                }
+                $("#allKalaContainer").append(`<tr onclick="getKalaId(this)">
+                                                <td >`+ (index + 1) + `</td>
+                                                <td style="width:88px">`+ element.GoodCde + `</td>
+                                                <td style="width:333px">`+ element.GoodName + `</td>
+                                                <td>`+ element.lastDate + `</td>
+                                                <td `+ hidStyle + `>` + element.hideKala + `</td>
+                                                <td style="color:red;background-color:azure;">`+ element.Amount + `</td>
                                                 <td >
-                                                    <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+element.GoodSn+`" id="flexCheckCheckedKala">
+                                                    <input class="kala form-check-input" name="kalaId[]" type="radio" value="`+ element.GoodSn + `" id="flexCheckCheckedKala">
                                                 </td>
                                             </tr>`);
-                                            })  
-    }else{
-        alert("data has not come");
-    }
+            })
+        } else {
+            alert("data has not come");
+        }
     });
 }
 
-function getReturnedFactors(){
-    $.get(baseUrl+"/getReturnedFactors",
-    {
-        goodName:$("#goodName").val(),
-        firstDate:$("#assesFirstDate").val(),
-        secondDate:$("#assesSecondDate").val(),
-        firstTime:$("#assesFirstTime").val(),
-        secondTime:$("#assesSecondTime").val(),
-        firstFactNo:$("#firstFactNo").val(),
-        secondFactNo:$("#secondFactNo").val(),
-        customreName:$("#customerNameId").val(),
-        setterName:$("#setterName").val(),
-        stockSn:$("#stockSnId").val(),
-        FactNo:$("#justFactNo").val()
-    },function(data,status){
-        if(status=="success"){
-            $("#returnedBodyFactorList").empty();
-            data.forEach((element,index)=>{
-                $("#returnedBodyFactorList").append(`<tr onclick="getReturnedFactorDetail(this,`+element.SerialNoHDS+`)">
-                <td>`+(index+1)+`</td>
-                <td>`+element.FactNo+`</td>
-                <td>`+element.FactDate+`</td>
-                <td>`+element.FactDesc+`</td>
-                <td>`+element.PCode+`</td>
-                <td>`+element.Name+`</td>
-                <td>`+element.NameStock+`</td>
-                <td>`+parseInt(element.TotalPriceHDS/10).toLocaleString("en-us")+`</td>
-                <td>`+element.NameUser+`</td>
-                <td>`+element.DateBargiri+`</td>
-                <td>`+element.TimeBargiri+`</td>
-                <td>`+element.FactTime+`</td>
+function getReturnedFactors() {
+    $.get(baseUrl + "/getReturnedFactors",
+        {
+            goodName: $("#goodName").val(),
+            firstDate: $("#assesFirstDate").val(),
+            secondDate: $("#assesSecondDate").val(),
+            firstTime: $("#assesFirstTime").val(),
+            secondTime: $("#assesSecondTime").val(),
+            firstFactNo: $("#firstFactNo").val(),
+            secondFactNo: $("#secondFactNo").val(),
+            customreName: $("#customerNameId").val(),
+            setterName: $("#setterName").val(),
+            stockSn: $("#stockSnId").val(),
+            FactNo: $("#justFactNo").val()
+        }, function (data, status) {
+            if (status == "success") {
+                $("#returnedBodyFactorList").empty();
+                data.forEach((element, index) => {
+                    $("#returnedBodyFactorList").append(`<tr onclick="getReturnedFactorDetail(this,` + element.SerialNoHDS + `)">
+                <td>`+ (index + 1) + `</td>
+                <td>`+ element.FactNo + `</td>
+                <td>`+ element.FactDate + `</td>
+                <td>`+ element.FactDesc + `</td>
+                <td>`+ element.PCode + `</td>
+                <td>`+ element.Name + `</td>
+                <td>`+ element.NameStock + `</td>
+                <td>`+ parseInt(element.TotalPriceHDS / 10).toLocaleString("en-us") + `</td>
+                <td>`+ element.NameUser + `</td>
+                <td>`+ element.DateBargiri + `</td>
+                <td>`+ element.TimeBargiri + `</td>
+                <td>`+ element.FactTime + `</td>
             </tr>`);
-            })
-        }else{
-            alert("can get data from returned Factors")
-        }
-    })
+                })
+            } else {
+                alert("can get data from returned Factors")
+            }
+        })
 }
 
 function getReturnDateHistory(history) {
-    $.get(baseUrl+"/getReturnedFactorsHistory",
-    {
-        HISTORY:``+history+``
-    },function(data,status){
-        if(status=="success"){
-            $("#returnedBodyFactorList").empty();
-            data.forEach((element,index)=>{
-                $("#returnedBodyFactorList").append(`<tr onclick="getReturnedFactorDetail(this,`+element.SerialNoHDS+`)">
-                <td>`+(index+1)+`</td>
-                <td>`+element.FactNo+`</td>
-                <td>`+element.FactDate+`</td>
-                <td>`+element.FactDesc+`</td>
-                <td>`+element.PCode+`</td>
-                <td>`+element.Name+`</td>
-                <td>`+element.NameStock+`</td>
-                <td>`+parseInt(element.TotalPriceHDS/10).toLocaleString("en-us")+`</td>
-                <td>`+element.NameUser+`</td>
-                <td>`+element.DateBargiri+`</td>
-                <td>`+element.TimeBargiri+`</td>
-                <td>`+element.FactTime+`</td>
+    $.get(baseUrl + "/getReturnedFactorsHistory",
+        {
+            HISTORY: `` + history + ``
+        }, function (data, status) {
+            if (status == "success") {
+                $("#returnedBodyFactorList").empty();
+                data.forEach((element, index) => {
+                    $("#returnedBodyFactorList").append(`<tr onclick="getReturnedFactorDetail(this,` + element.SerialNoHDS + `)">
+                <td>`+ (index + 1) + `</td>
+                <td>`+ element.FactNo + `</td>
+                <td>`+ element.FactDate + `</td>
+                <td>`+ element.FactDesc + `</td>
+                <td>`+ element.PCode + `</td>
+                <td>`+ element.Name + `</td>
+                <td>`+ element.NameStock + `</td>
+                <td>`+ parseInt(element.TotalPriceHDS / 10).toLocaleString("en-us") + `</td>
+                <td>`+ element.NameUser + `</td>
+                <td>`+ element.DateBargiri + `</td>
+                <td>`+ element.TimeBargiri + `</td>
+                <td>`+ element.FactTime + `</td>
             </tr>`);
-            })
-        }else{
-            alert("can get data from returned Factors")
+                })
+            } else {
+                alert("can get data from returned Factors")
+            }
+        })
+}
+
+if ($("#stockSnId")) {
+    $.get(baseUrl + '/getStocks', {}, function (data, status) {
+        if (status == "success") {
+            $("#stockSnId").empty();
+            $("#stockSnId").append(`<option value="">همه</option>`);
+            data.forEach((element, index) => {
+                $("#stockSnId").append(`<option value="` + element.NameStock + `">` + element.NameStock + `</option>`);
+            });
         }
-    })
-}
-
-if($("#stockSnId")){
-$.get(baseUrl+'/getStocks',{},function(data,status) {
-    console.log(data)
-   if(status=="success"){
-    $("#stockSnId").empty();
-    $("#stockSnId").append(`<option value="">همه</option>`);
-    data.forEach((element,index)=>{
-        $("#stockSnId").append(`<option value="`+element.NameStock+`">`+element.NameStock+`</option>`);
     });
-   }
-});
 }
 
-if($("#setterName")){
-    $.get(baseUrl+'/getFactorSetter',{},function(data,status) {
-        console.log(data)
-       if(status=="success"){
-        $("#setterName").empty();
-        $("#setterName").append(`<option value="">همه</option>`);
-        data.forEach((element,index)=>{
-            $("#setterName").append(`<option value="`+element.NameUser+`">`+element.NameUser+`</option>`);
-        });
-       }
+if ($("#setterName")) {
+    $.get(baseUrl + '/getFactorSetter', {}, function (data, status) {
+        if (status == "success") {
+            $("#setterName").empty();
+            $("#setterName").append(`<option value="">همه</option>`);
+            data.forEach((element, index) => {
+                $("#setterName").append(`<option value="` + element.NameUser + `">` + element.NameUser + `</option>`);
+            });
+        }
     });
 }
 
 
-function getReturnedFactorDetail(element,factorId){
+function getReturnedFactorDetail(element, factorId) {
     $("tr").removeClass("selected");
     $(element).addClass("selected");
 
-    $.get(baseUrl+"/getFactorDetail",{FactorSn:factorId}, function(data, status){
-        if(status=="success"){
+    $.get(baseUrl + "/getFactorDetail", { FactorSn: factorId }, function (data, status) {
+        if (status == "success") {
             $("#factorInfo").css({ display: "block" });
             let factor = data[0];
             $("#factorDateP").text(factor.FactDate);
@@ -25833,47 +25831,92 @@ function getReturnedFactorDetail(element,factorId){
                 );
             });
         }
-      });
+    });
 }
 
-$.get(baseUrl+"/getProductMainGroups", function(data, status){
+$.get(baseUrl + "/getProductMainGroups", function (data, status) {
     $("#superGroup").empty();
     $("#superGroup").append(`<option value="_">همه</option>`);
-    data.forEach((element)=>{
-        $("#superGroup").append(`<option value="`+element.id+`_`+element.title+`">`+element.title+`</option>`);
+    data.forEach((element) => {
+        $("#superGroup").append(`<option value="` + element.id + `_` + element.title + `">` + element.title + `</option>`);
     });
-  });
-
-if($("#superGroup")){
-    $("#superGroup").on("change",function(){
-    $.get(baseUrl+"/getSubGroups",{ mainGroupId:$("#superGroup").val().split("_")[0] }, function(data, status){
-        $("#subGroup").empty();
-        $("#subGroup").append(`<option value="">همه</option>`);
-        data.forEach((element)=>{
-            $("#subGroup").append(`<option value="`+element.title+`">`+element.title+`</option>`);
-        });
-      });
 });
+
+if ($("#superGroup")) {
+    $("#superGroup").on("change", function () {
+        $.get(baseUrl + "/getSubGroups", { mainGroupId: $("#superGroup").val().split("_")[0] }, function (data, status) {
+            $("#subGroup").empty();
+            $("#subGroup").append(`<option value="">همه</option>`);
+            data.forEach((element) => {
+                $("#subGroup").append(`<option value="` + element.title + `">` + element.title + `</option>`);
+            });
+        });
+    });
 }
 
 
 
-$("#addingScopeInfoBtn").on("click", ()=>{
+$("#addingScopeInfoBtn").on("click", () => {
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({
             left: 50,
             top: 0
         });
-      }
-      $('#addingScopeInfoModal').modal({
+    }
+    $('#addingScopeInfoModal').modal({
         backdrop: false,
         show: true
-      });
-      $('.modal-dialog').draggable({
-          handle: ".modal-header"
-        });
+    });
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
     $("#addingScopeInfoModal").modal("show");
 })
+
+
+
+
+$("#addingShowBtn").on("click", () => {
+    if (!($('.modal.in').length)) {
+        $('.modal-dialog').css({
+            left: 50,
+            top: 0
+        });
+    }
+    $('#showCity').modal({
+        backdrop: false,
+        show: true
+    });
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
+    $("#showCity").modal("show");
+})
+
+
+// adding city Modal
+$("#addingCityBtn").on("click", () => {
+    if (!($('.modal.in').length)) {
+        $('.modal-dialog').css({
+            left: 50,
+            top: 0
+        });
+    }
+    $('#showCity').modal({
+        backdrop: false,
+        show: true
+    });
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
+    $("#showCity").modal("show");
+})
+
+
+
+
+
+
 
 
 // Create root and chart
@@ -26037,6 +26080,5 @@ yAxis.set(
         themeTags: ["axis"],
     })
 );
-
 
 

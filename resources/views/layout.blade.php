@@ -265,12 +265,12 @@
 
 var intVal, myclock;
 
-if (!navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("sw.js").then(function (reg) {
-            console.log("Service worker has been registered for scope: " + reg.scope);
-        });
-    }else{
-    }
+// if (!navigator.serviceWorker.controller) {
+//         navigator.serviceWorker.register("sw.js").then(function (reg) {
+//             console.log("Service worker has been registered for scope: " + reg.scope);
+//         });
+//     }else{
+//    }
 
 $(document).ready(function(){
     var audioElement = new Audio("");
@@ -454,12 +454,14 @@ function alarmBackground(y){
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
     }
+
 // ---------------------------------- new sidebar code---------------------------------------
 $('#cssmenu > ul > li ul').each(function(index, e){
   var count = `<i class="fa-solid fa-caret-down text-white"></i>`;
   var content = '<span class="cnt">' + count + '</span>';
   $(e).closest('li').children('a').append(content);
 });
+
 
 $('#cssmenu ul ul li:odd').addClass('odd');
 $('#cssmenu ul ul li:even').addClass('even');
